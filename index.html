@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>CampusClaim — Login</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/util.css">
+
+  <!-- Page-specific CSS -->
+  <link rel="stylesheet" href="css/index.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+</head>
+
+<body>
+  <!-- TOP BAR -->
+  <nav class="topbar">
+    <div class="brand">
+      <div class="logo">C</div> 
+      CampusClaim
+    </div>
+    <div class="nav-actions">
+      <a class="nav-link" href="inventory.html">Browse</a>
+      <a class="nav-link" href="about.html">About</a>
+      <button class="btn small googleSignInBtn">Login (Thapar)</button>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <main class="landing">
+  
+  <div class="hero-text">
+    <h1>
+      Lost your bag?<br>
+      Don’t worry,<br>
+      we got you.
+    </h1>
+
+    <button class="hero-btn googleSignInBtn">Login now</button>
+  </div>
+
+  <div class="hero-art">
+    <img src="index-image.png" alt="Lost & Found Illustration">
+  </div>
+
+</main>
+
+  <!-- Firebase logic -->
+  <script src="firebase.js"></script>
+  <script>
+    const auth = firebase.auth();
+
+    function showMsg(t) {
+      const el = document.getElementById('msg');
+      if (el) el.textContent = t;
+    }
+
+    async function signInWithGoogle(){
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        const res = await auth.signInWithPopup(provider);
+
+        const user = res.user;
+        if (!user || !user.email) {
+          showMsg("Login failed.");
+          return auth.signOut();
+        }
+        if (!user.email.endsWith("@thapar.edu")) {
+          showMsg("Only @thapar.edu emails allowed.");
+          return auth.signOut();
+        }
+
+        window.location.href = "dashboard.html";
+      } catch(err){
+        console.error(err);
+        showMsg(err.message || "Login error");
+      }
+    }
+
+    document.querySelectorAll(".googleSignInBtn")
+      .forEach(btn => btn.addEventListener("click", signInWithGoogle));
+
+    auth.onAuthStateChanged(u=>{
+      if (u && u.email.endsWith("@thapar.edu")) {
+        location.href = "dashboard.html";
+      }
+    });
+  </script>
+
+</body>
+</html>
+

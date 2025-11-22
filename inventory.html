@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>CampusClaim — Inventory</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/navbar.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/util.css">
+<link rel="stylesheet" href="/css/inventory.css">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+  <nav class="topbar">
+    <div class="brand">CampusClaim</div>
+    <div class="nav-actions">
+      <a href="index.html" class="linkbtn">Home</a>
+      <a href="dashboard.html" class="linkbtn">Dashboard</a>
+      <a href="about.html" class="linkbtn">About</a>
+    </div>
+  </nav>
+
+  <main class="inventory">
+
+  <div class="inv-header">
+    <h1>Browse Inventory</h1>
+    <p class="inv-sub">Search through all items registered by the admin office.</p>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+
+    <input id="search" placeholder="Search items…" />
+
+    <select id="filterLoc">
+      <option value="all">All Blocks</option>
+      <option value="A block">A block</option>
+      <option value="B block">B block</option>
+      <option value="C block">C block</option>
+      <option value="D block">D block</option>
+      <option value="E block">E block</option>
+      <option value="F block">F block</option>
+      <option value="G block">G block</option>
+      <option value="H block">H block</option>
+      <option value="Library">Library</option>
+      <option value="TAN">TAN</option>
+      <option value="Activity Space">Activity Space</option>
+      <option value="Misc">Misc</option>
+    </select>
+
+    <select id="filterType">
+      <option value="all">All Types</option>
+      <option value="Bag">Bag</option>
+      <option value="Jewellery">Jewellery</option>
+      <option value="Electronics">Electronics</option>
+      <option value="ID Card">ID Card</option>
+      <option value="Documents">Documents</option>
+      <option value="Clothing">Clothing</option>
+      <option value="Bottle">Bottle</option>
+      <option value="Other">Other</option>
+    </select>
+
+  </div>
+
+  <!-- ITEM LIST -->
+  <div id="items" class="inv-items"></div>
+
+</main>
+
+
+  <div id="toast-holder"></div>
+
+
+  <script src="firebase.js"></script>
+
+  <script>
+    const db = firebase.firestore();
+    let allItems = [];
+
+    function toast(msg, t = 3000) {
+      const el = document.createElement('div');
+      el.className = 'toast';
+      el.textContent = msg;
+      document.getElementById('toast-holder').appendChild(el);
+      setTimeout(() => el.remove(), t);
+    }
+
+    function escapeHtml(s) {
+      if (!s) return "";
+      return s.replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;");
+    }
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      if (!user.email.endsWith("@thapar.edu")) {
+        alert("Access restricted to @thapar.edu accounts only.");
+        firebase.auth().signOut();
+        return;
+      }
+
+      startInventoryListener();
+    });
+
+
+    function startInventoryListener() {
+      db.collection("items")
+        .where("archived", "==", false)
+        .orderBy("createdAt", "desc")
+        .onSnapshot(snapshot => {
+          allItems = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+          applyFilters();
+
+ 
+          snapshot.docChanges().forEach(change => {
+            if (change.type === "added") {
+              const data = change.doc.data();
+              toast(`New item registered: ${data.title || "item"}`);
+            }
+          });
+        });
+    }
+
+
+    function renderList(list) {
+      const container = document.getElementById("items");
+      container.innerHTML = "";
+
+      if (!list.length) {
+        container.innerHTML = `<small class="muted">No items found</small>`;
+        return;
+      }
+
+      list.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "item-row";
+
+        const img = document.createElement("img");
+        img.className = "item-thumb";
+        img.src = item.thumbnail || "index-image.png";
+
+        const body = document.createElement("div");
+        body.className = "item-body";
+
+        const title = document.createElement("div");
+        title.innerHTML = `<strong>${escapeHtml(item.title)}</strong>`;
+
+        const tags = document.createElement("div");
+        tags.style.marginTop = "6px";
+
+        const tagType = document.createElement("span");
+        tagType.className = "tag";
+        tagType.textContent = item.type || "";
+
+        const tagLoc = document.createElement("span");
+        tagLoc.className = "tag";
+        tagLoc.textContent = item.location || "";
+
+        tags.appendChild(tagType);
+        tags.appendChild(tagLoc);
+
+        const meta = document.createElement("div");
+        meta.className = "item-meta";
+        meta.textContent = (item.description || "").slice(0, 120);
+
+        body.appendChild(title);
+        body.appendChild(tags);
+        body.appendChild(meta);
+
+        const caret = document.createElement("div");
+        caret.className = "caret";
+        caret.textContent = "Open";
+        caret.addEventListener("click", () =>
+          (location.href = `item.html?id=${item.id}`)
+        );
+
+        row.appendChild(img);
+        row.appendChild(body);
+        row.appendChild(caret);
+        container.appendChild(row);
+      });
+    }
+
+    function applyFilters() {
+      let out = allItems.slice();
+
+      const q = document.getElementById("search").value.trim().toLowerCase();
+      const loc = document.getElementById("filterLoc").value;
+      const type = document.getElementById("filterType").value;
+
+      if (loc !== "all") out = out.filter(i => i.location === loc);
+      if (type !== "all") out = out.filter(i => i.type === type);
+
+      if (q)
+        out = out.filter(
+          i =>
+            (i.title || "").toLowerCase().includes(q) ||
+            (i.description || "").toLowerCase().includes(q)
+        );
+
+      renderList(out);
+    }
+
+    document.getElementById("search").addEventListener("input", applyFilters);
+    document.getElementById("filterLoc").addEventListener("change", applyFilters);
+    document.getElementById("filterType").addEventListener("change", applyFilters);
+  </script>
+</body>
+</html>
+

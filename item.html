@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>CampusClaim — Item Details</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/util.css">
+  <link rel="stylesheet" href="css/item-detail.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="topbar">
+    <div class="brand">CampusClaim</div>
+    <div class="nav-actions">
+      <a class="linkbtn" href="dashboard.html">Dashboard</a>
+      <a class="linkbtn" href="inventory.html">Inventory</a>
+    </div>
+  </nav>
+
+  <main class="item-page">
+
+  <button class="back-btn" onclick="history.back()">← Back</button>
+
+  <div id="itemBox" class="item-box">
+
+    <div class="item-left">
+      <img id="itemImg" class="item-img" src="images/default.png">
+    </div>
+
+    <div class="item-right">
+      <h1 id="itemTitle">Loading...</h1>
+
+      <div class="item-tags">
+        <span id="itemType" class="tag"></span>
+        <span id="itemLocation" class="tag"></span>
+      </div>
+
+      <p id="itemDesc" class="item-desc"></p>
+
+      <a id="claimBtn" class="primary" href="#">Claim this item</a>
+    </div>
+
+  </div>
+
+</main>
+
+
+  <script src="firebase.js"></script>
+
+<script>
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  const params = new URLSearchParams(location.search);
+  const itemId = params.get("id");
+
+  auth.onAuthStateChanged(async (user) => {
+    if (!user || !user.email.endsWith("@thapar.edu")) {
+      alert("Login required to view item details.");
+      location.href = "index.html";
+      return;
+    }
+
+    try {
+        await new Promise(res => setTimeout(res, 200)); // allow auth token to load
+        const doc = await db.collection("items").doc(itemId).get();
+
+
+      if (!doc.exists) {
+        document.getElementById("itemBox").innerHTML =
+          "<p>Item not found</p>";
+        return;
+      }
+
+      const data = doc.data();
+
+      // fill fields
+      document.getElementById("itemTitle").textContent = data.title;
+      document.getElementById("itemType").textContent = data.type;
+      document.getElementById("itemLocation").textContent = data.location;
+      document.getElementById("itemDesc").textContent =
+         data.description?.trim() || "No additional description provided.";
+
+      document.getElementById("itemImg").src =
+        data.thumbnail || "https://www.fgear.in/cdn/shop/files/1_c8a45729-2e47-436c-93ec-7590f3fb410c.png?v=1759842297&width=1946";
+
+      // link to claim page
+      document.getElementById("claimBtn").href = `claim.html?id=${itemId}`;
+
+} catch (err) {
+  console.error(err);
+
+  if (err.code === "permission-denied") {
+    alert("You do not have permission to view this item.");
+  } else {
+    alert("Could not load item. Please try again.");
+  }
+
+  location.href = "inventory.html";
+}
+    });
+</script>
+</body>
+</html>
+

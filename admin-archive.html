@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CampusClaim — Archive</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/navbar.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/util.css">
+
+  <!-- Firebase SDKs (MUST be included before firebase.js) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+  <nav class="topbar">
+    <div class="brand">CampusClaim — Admin</div>
+    <div class="nav-actions">
+      <a href="admin-dashboard.html" class="linkbtn">Dashboard</a>
+      <a href="admin-claims.html" class="linkbtn">Claims</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h2>Archived Items</h2>
+    <div id="archivePanel" class="card-panel">Loading...</div>
+  </main>
+
+  <!-- Your firebase config -->
+  <script src="firebase.js"></script>
+
+  <script>
+    const db = firebase.firestore();
+
+    // Ensure admin login
+    firebase.auth().onAuthStateChanged(async user => {
+      if (!user) return location.href = "admin-login.html";
+
+      const adminDoc = await db.collection("admins").doc(user.uid).get();
+      if (!adminDoc.exists || adminDoc.data().isAdmin !== true) {
+        alert("Not an admin");
+        return location.href = "index.html";
+      }
+
+      loadArchive();
+    });
+
+    function loadArchive() {
+      db.collection("items")
+            .where("archived", "==", true)
+            .orderBy("archivedAt", "desc")
+        .onSnapshot(snap => {
+          const el = document.getElementById('archivePanel');
+          el.innerHTML = '';
+
+          if (snap.empty) {
+            el.innerHTML = "<small>No archived items</small>";
+            return;
+          }
+
+          snap.docs.forEach(d => {
+            const item = d.data();
+            const row = document.createElement('div');
+            row.style.border = "1px solid #ccc";
+            row.style.padding = "10px";
+            row.style.marginBottom = "8px";
+
+            row.innerHTML = `
+              <strong>${item.title}</strong> — ${item.location} (${item.type})
+              <div style="margin-top:5px;">${item.description || ""}</div>
+            `;
+
+            el.appendChild(row);
+          });
+        });
+    }
+  </script>
+</body>
+</html>

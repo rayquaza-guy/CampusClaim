@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>CampusClaim — Admin Login</title><meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/navbar.css">
+<link rel="stylesheet" href="/css/components.css">
+<link rel="stylesheet" href="/css/util.css"></head>
+<body>
+  <main class="container" style="padding-top:40px">
+    <div class="card-panel" style="max-width:640px;margin:0 auto">
+      <h2>Admin Office Login</h2>
+      <p>This is for the admin office staff who register items found on campus.</p>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <input id="adminKey" class="input" placeholder="Enter admin key (demo)" />
+        <button id="submitAdmin" class="primary">Enter</button>
+      </div>
+      <p style="margin-top:10px" class="muted">Demo default key: <code>admin-office-2025</code></p>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('submitAdmin').addEventListener('click', ()=>{
+      const k = document.getElementById('adminKey').value.trim();
+      if (k === 'admin-office-2025') {
+        localStorage.setItem('campusclaim_admin', '1');
+        location.href = 'admin-dashboard.html';
+      } else {
+        alert('Wrong key');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>CampusClaim — My Claims</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/navbar.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/util.css">
+<link rel="stylesheet" href="css/claims.css">
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <nav class="topbar">
+    <div class="brand">CampusClaim</div>
+    <div class="nav-actions">
+      <a href="dashboard.html" class="linkbtn">Dashboard</a>
+      <a href="inventory.html" class="linkbtn">Inventory</a>
+    </div>
+  </nav>
+
+<main class="claims-page">
+
+  <div class="claims-header">
+    <h1>My Claims</h1>
+    <p class="claims-sub">Track the status of items you have claimed.</p>
+  </div>
+
+  <div id="myClaims" class="claims-list">Loading...</div>
+
+</main>
+
+  
+  <script src="firebase.js"></script>
+  
+  <script>
+    const auth = firebase.auth();
+const db = firebase.firestore();
+
+auth.onAuthStateChanged(user => {
+  if (!user || !user.email.endsWith("@thapar.edu")) {
+    location.href = "index.html";
+    return;
+  }
+  loadClaims(user.email);
+});
+
+function loadClaims(email) {
+  db.collection("claims")
+    .where("claimantEmail", "==", email)
+    .orderBy("createdAt", "desc")
+    .onSnapshot(
+      snap => {
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderClaims(list);
+      },
+      err => console.error("Claims load error:", err)
+    );
+}
+
+function renderClaims(list) {
+  const container = document.getElementById("myClaims");
+  container.innerHTML = "";
+
+  if (!list.length) {
+    container.innerHTML = `
+      <div class="empty-claims">
+        You have not submitted any claims yet.
+      </div>`;
+    return;
+  }
+
+  list.forEach(c => {
+    const row = document.createElement("div");
+    row.className = "claim-row";
+
+    const date = c.createdAt?.toDate
+      ? c.createdAt.toDate().toLocaleString()
+      : "Unknown date";
+
+    row.innerHTML = `
+      <div class="claim-info">
+        <strong>${escapeHtml(c.title || "Claimed Item")}</strong>
+        <div class="claim-meta">${date}</div>
+      </div>
+
+      <div class="claim-status ${c.status}">
+        ${c.status.replace("_", " ")}
+      </div>
+
+      <button class="claim-view-btn">View</button>
+    `;
+
+    row.querySelector(".claim-view-btn").onclick = () => {
+      location.href = `claim-detail.html?id=${c.id}`;
+    };
+
+    container.appendChild(row);
+  });
+}
+
+function escapeHtml(s) {
+  if (!s) return "";
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+  </script>
+</body>
+</html>

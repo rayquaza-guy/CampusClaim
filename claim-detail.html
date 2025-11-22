@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>CampusClaim — Claim Detail</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/util.css">
+  <link rel="stylesheet" href="css/claim-detail.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="topbar">
+    <div class="brand">CampusClaim</div>
+    <div class="nav-actions">
+      <a href="dashboard.html" class="linkbtn">Dashboard</a>
+      <a href="claim-status.html" class="linkbtn">My Claims</a>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="claim-detail-page">
+    
+    <button class="back-btn" onclick="window.location.href='claim-status.html'">← Back to My Claims</button>
+
+    <div id="claimBox" class="claim-box loading">
+      Loading claim...
+    </div>
+
+  </main>
+
+  <script src="firebase.js"></script>
+
+  <script>
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const claimId = new URLSearchParams(window.location.search).get("id");
+    if (!claimId) {
+      document.getElementById("claimBox").innerHTML = "Invalid claim ID.";
+    }
+
+    auth.onAuthStateChanged(async user => {
+      if (!user || !user.email.endsWith("@thapar.edu")) {
+        location.href = "index.html"; 
+        return;
+      }
+      loadClaim();
+    });
+
+    async function loadClaim() {
+      const box = document.getElementById("claimBox");
+
+      try {
+        const doc = await db.collection("claims").doc(claimId).get();
+        if (!doc.exists) {
+          box.innerHTML = "Claim not found.";
+          return;
+        }
+        const c = doc.data();
+        renderClaim(c);
+      } catch (err) {
+        console.error(err);
+        box.innerHTML = "Error loading claim.";
+      }
+    }
+
+    function renderClaim(c) {
+      const date = c.createdAt?.toDate
+        ? c.createdAt.toDate().toLocaleString()
+        : "Unknown";
+
+      const box = document.getElementById("claimBox");
+      box.classList.remove("loading");
+
+      box.innerHTML = `
+        <h1>Claim Details</h1>
+
+        <div class="status-badge ${c.status}">
+          ${c.status.replace("_", " ")}
+        </div>
+
+        <div class="section">
+          <h3>Item Information</h3>
+          <div class="item-info">
+            <p><strong>Item ID:</strong> ${c.itemId}</p>
+            <p><strong>Lost Location:</strong> ${c.lostLocation || "N/A"}</p>
+            <p><strong>Claimed On:</strong> ${date}</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Your Description</h3>
+          <p class="desc-text">${c.description || "No description provided."}</p>
+        </div>
+
+        ${c.evidenceImages?.length ? `
+          <div class="section">
+            <h3>Evidence Images</h3>
+            <div class="evidence-box">
+              ${c.evidenceImages.map(img => `
+                <img src="${img}" class="evidence-img" />
+              `).join("")}
+            </div>
+          </div>
+        ` : ""}
+        
+        <div class="section">
+          <h3>Admin Response</h3>
+          <p class="admin-msg">${c.adminMessage || "No response yet."}</p>
+        </div>
+      `;
+    }
+  </script>
+
+</body>
+</html>
