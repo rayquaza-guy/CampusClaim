@@ -1,0 +1,101 @@
+.claim-detail-page {
+  padding: 60px 120px;
+  background: #f6f9fc;
+  min-height: 85vh;
+}
+
+/* Back Button */
+.back-btn {
+  background: none;
+  border: none;
+  color: #4CAF4F;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 25px;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+/* Claim Box */
+.claim-box {
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+}
+
+.claim-box.loading {
+  text-align: center;
+  color: #777;
+  font-size: 18px;
+}
+
+/* Section Titles */
+.section {
+  margin-top: 28px;
+}
+
+.section h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #1b1b1b;
+}
+
+/* Info Text */
+.item-info p,
+.desc-text,
+.admin-msg {
+  font-size: 16px;
+  color: #444;
+}
+
+/* Status Badge */
+.status-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: capitalize;
+  margin-bottom: 20px;
+}
+
+.status-badge.pending {
+  background: #fff4d1;
+  color: #8e6d00;
+}
+
+.status-badge.approved {
+  background: #e6f6e9;
+  color: #277c2a;
+}
+
+.status-badge.rejected {
+  background: #ffe4e4;
+  color: #b72e2e;
+}
+
+.status-badge.more_info {
+  background: #e8f1ff;
+  color: #2d5fd1;
+}
+
+/* Evidence Images */
+.evidence-box {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.evidence-img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #eee;
+}

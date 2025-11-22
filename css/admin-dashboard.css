@@ -1,0 +1,121 @@
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Page title */
+.container h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Card panels */
+.card-panel {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  margin-bottom: 24px;
+  border: 1px solid #eef0f3;
+}
+
+/* Input fields + dropdowns */
+.input, select.input {
+  padding: 10px 14px;
+  border: 1px solid #dcdfe3;
+  border-radius: 10px;
+  width: 100%;
+  font-size: 15px;
+  background: #fafafa;
+}
+
+/* File upload input */
+#itemThumbnail {
+  padding: 6px;
+  font-size: 14px;
+}
+
+/* Register button */
+.primary {
+  background: #4CAF4F;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 22px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.primary:hover {
+  background: #3d8b40;
+}
+
+/* "Exit Admin" button at navbar */
+#logoutBtn {
+  font-size: 14px !important;
+  padding: 8px 18px !important;
+}
+
+/* Recent items box */
+#recentList div {
+  padding: 14px;
+  border-radius: 10px;
+  background: #f7f9fb;
+  margin-bottom: 8px;
+}
+
+#recentList button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#recentList button:hover {
+  background: #c0392b;
+}
+
+/* FIX BROKEN SMALL SELECT BOX */
+
+select.input {
+    height: 45px !important;
+    min-height: 45px !important;
+    line-height: 45px !important;
+    display: inline-block;
+    padding: 10px 14px !important;
+    font-size: 15px !important;
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 1px solid #dcdfe3 !important;
+    border-radius: 10px !important;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+/* Fix admin dashboard input layout */
+.form-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.form-row .wide {
+  flex: 1;
+  min-width: 260px;  /* Prevent shrinking */
+}
+
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #dcdfe3;
+  border-radius: 10px;
+  background: #fafafa;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+

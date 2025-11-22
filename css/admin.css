@@ -1,0 +1,146 @@
+/* Page title */
+.admin-container h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Form card spacing */
+.card-panel {
+  margin-bottom: 28px;
+}
+
+/* Inputs inside admin panel */
+.card-panel .input,
+.card-panel textarea,
+.card-panel select {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #e3e6ea;
+  padding: 10px 14px;
+  font-size: 15px;
+  width: 100%;
+  transition: border 0.2s ease;
+}
+
+.card-panel .input:focus,
+.card-panel textarea:focus,
+.card-panel select:focus {
+  border: 1px solid #4caf50;
+  outline: none;
+}
+
+/* Custom styled file upload button */
+.file-btn {
+  background: #4caf50;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Recent item card */
+.recent-item {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  border: 1px solid #e9edf1;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+
+.recent-item strong {
+  font-size: 17px;
+}
+
+/* Archive button */
+.archive-btn {
+  background: #ffebee;
+  color: #c62828;
+  border: none;
+  padding: 6px 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.archive-btn:hover {
+  background: #ffcdd2;
+}
+/* FIX tiny input bug */
+#itemTitle {
+    height: 45px !important;
+    font-size: 15px !important;
+    padding: 10px 14px !important;
+    color: #000 !important;
+    display: block !important;
+}
+.input {
+    min-height: 40px !important;
+    line-height: 22px !important;
+}
+
+input.input::before,
+input.input::after {
+    content: none !important;
+}
+/* FIX: INPUT + SELECT too small in admin dashboard */
+.admin-container .input,
+.admin-container select.input,
+.admin-container select,
+.admin-container textarea {
+  height: 48px !important;
+  padding: 12px 14px !important;
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  box-sizing: border-box !important;
+}
+
+/* FIX: Text inside select not visible fully */
+.admin-container select {
+  display: flex;
+  align-items: center;
+}
+
+/* FIX: Textarea still correct height */
+.admin-container textarea {
+  min-height: 110px !important;
+}
+
+/* FIX: File upload pill size alignment */
+.file-btn {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  background: #4caf50;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.form-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.form-row .wide {
+  flex: 1;
+  min-width: 250px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #dcdfe3;
+  border-radius: 10px;
+  background: #fafafa;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+

@@ -1,0 +1,204 @@
+.claim-wrapper {
+  width: 100%;
+  padding: 40px;
+  max-width: 860px;
+  margin: auto;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #2e7d32;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.item-summary {
+  background: white;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  margin-bottom: 28px;
+}
+
+.summary-box {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.summary-box img {
+  width: 110px;
+  height: 110px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.summary-box h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.tags {
+  margin-top: 6px;
+  display: flex;
+  gap: 10px;
+}
+
+.tag {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 4px 10px;
+  border-radius: 12px;.claim-wrapper {
+  width: 100%;
+  padding: 40px;
+  max-width: 860px;
+  margin: auto;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #2e7d32;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.item-summary {
+  background: white;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  margin-bottom: 28px;
+}
+
+.summary-box {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.summary-box img {
+  width: 110px;
+  height: 110px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.summary-box h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.tags {
+  margin-top: 6px;
+  display: flex;
+  gap: 10px;
+}
+
+.tag {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.claim-card {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.claim-card h2 {
+  margin-bottom: 18px;
+}
+
+.claim-card label {
+  display: block;
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.claim-card textarea {
+  width: 100%;
+  height: 110px;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  resize: none;
+  margin-top: 4px;
+}
+
+.claim-card select,
+.claim-card input[type=file] {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.reward-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.status-text {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #555;
+}
+
+  font-size: 13px;
+}
+
+.claim-card {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.claim-card h2 {
+  margin-bottom: 18px;
+}
+
+.claim-card label {
+  display: block;
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.claim-card textarea {
+  width: 100%;
+  height: 110px;
+  border-radius: 8px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  resize: none;
+  margin-top: 4px;
+}
+
+.claim-card select,
+.claim-card input[type=file] {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.reward-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.status-text {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #555;
+}

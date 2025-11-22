@@ -1,0 +1,85 @@
+.claim-wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  color: #4CAF4F;
+}
+
+.item-summary {
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #eef0f3;
+  margin-bottom: 25px;
+}
+
+.summary-box {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.summary-img {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #f1f1f1;
+}
+
+.claim-card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #eef0f3;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.claim-card h2 {
+  margin-bottom: 15px;
+}
+
+.claim-card label {
+  margin-top: 12px;
+  display: block;
+  font-weight: 600;
+}
+
+.claim-card textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  margin-top: 5px;
+  border: 1px solid #dfe3e6;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.claim-card select,
+.claim-card input[type=file] {
+  width: 100%;
+  margin-top: 5px;
+  padding: 12px;
+  border: 1px solid #dfe3e6;
+  border-radius: 10px;
+}
+
+.reward-row {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-text {
+  margin-top: 12px;
+  color: #333;
+}

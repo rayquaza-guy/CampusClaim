@@ -1,0 +1,64 @@
+/* --- HERO SECTION LAYOUT --- */
+.landing {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 80px 120px;
+  min-height: 80vh;
+  background: #f6f9fc;
+}
+
+/* LEFT TEXT */
+.hero-text {
+  max-width: 520px;
+}
+
+.hero-text h1 {
+  font-size: 58px;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #1a1a1a;
+  margin-bottom: 30px;
+}
+
+.hero-text p {
+  font-size: 20px;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.hero-btn {
+  padding: 14px 30px;
+  background: #4CAF4F;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.hero-btn:hover {
+  background: #3e8d41;
+}
+
+/* RIGHT IMAGE */
+.hero-art img {
+  width: 520px;     /* bigger image */
+  max-width: 100%;
+  margin-left: 40px; /* reduce gap */
+}
+
+html, body {
+  height: 100%;
+  background: #f8fbff; /* your soft background */
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure the whole page extends downward */
+.landing-wrapper {
+  min-height: 150vh; /* EXTRA HEIGHT */
+  padding-bottom: 80px;
+}
