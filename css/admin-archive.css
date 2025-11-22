@@ -1,0 +1,2 @@
+.archive-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.archive-card{background:var(--surface);padding:14px;border-radius:12px;box-shadow:var(--shadow-sm)}
